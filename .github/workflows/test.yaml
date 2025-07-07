@@ -1,0 +1,38 @@
+name : Python CI  # name of the workflow
+
+
+# Events like push ,pull,merge,delete,update shld have a trigger like below
+
+# Triggring the workflow on any push r pull request
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  #-> this is provided by github they have containers to run in windows,mac-os,ubuntu we can sepcifi any thin which we want
+
+    steps:
+    # check out the code from repository
+    -  name: check out code
+       uses: actions/checkout@v2
+  
+    # check out the code from repository
+    -  name: create python env
+       uses: actions/setup-python@v2
+       with:
+         python-version: '3.8'
+
+    # installing dependencies
+    -  name: Install dependencies
+       run: |
+         python -m pip install --upgrade pip
+         pip install -r requirement.txt
+
+    - name: Run test
+      run: pytest
